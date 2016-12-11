@@ -29,8 +29,10 @@ public class InfoTextManager : MonoBehaviour {
     }
 
     void Back() {
-        if (currentText == 0)
+        if (currentText == 0) {
             SceneManager.LoadSceneAsync("GameStartMenu");
+            return;
+        }
 
         texts[currentText].SetActive(false);
         currentText--;
@@ -38,8 +40,10 @@ public class InfoTextManager : MonoBehaviour {
     }
 
     void Next() {
-        if (currentText == texts.Length-1)
+        if (currentText == texts.Length-1) {
             SceneManager.LoadSceneAsync("GameStartMenu");
+            return;
+        }
 
         texts[currentText].SetActive(false);
         currentText++;

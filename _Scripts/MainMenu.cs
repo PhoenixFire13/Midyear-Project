@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        startGameButton.onClick.AddListener(LoadGameScene);
+        startGameButton.onClick.AddListener(LoadCharacterSelectionScene);
         controlsButton.onClick.AddListener(LoadControlsScene);
     }
 	
@@ -19,9 +19,8 @@ public class MainMenu : MonoBehaviour {
 	
 	}
 
-    void LoadGameScene() {
-        Debug.Log("GameScene");
-        // SceneManager.LoadSceneAsync("GameScene");
+    void LoadCharacterSelectionScene() {
+        SceneManager.LoadSceneAsync("CharacterSelection");
     }
 
     void LoadControlsScene(){
