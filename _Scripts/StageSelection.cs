@@ -24,7 +24,7 @@ public class StageSelection : MonoBehaviour
 
     void LoadCharacterSelectionScene()
     {
-        SceneManager.LoadSceneAsync("characterSelection");
+        SceneManager.LoadSceneAsync("CharacterSelection");
     }
 
     void LoadMatch()
