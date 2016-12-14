@@ -28,7 +28,6 @@ public class CharacterSelection : MonoBehaviour {
 
     void LoadStageSelectionScene()
     {
-        Debug.Log("Stage Selection");
-        // SceneManager.LoadSceneAsync("StageSelection");
+        SceneManager.LoadSceneAsync("StageSelection");
     }
 }
