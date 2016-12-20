@@ -1,35 +1,43 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
-public class StageSelection : MonoBehaviour
+namespace MidyearProject.StageSelection
 {
-
-    public Button nextButton;
-    public Button backButton;
-
-    // Use this for initialization
-    void Start()
+    public class StageSelection : MonoBehaviour
     {
-        nextButton.onClick.AddListener(LoadMatch);
-        backButton.onClick.AddListener(LoadCharacterSelectionScene);
-    }
+        #region Public fields
 
-    // Update is called once per frame
-    void Update()
-    {
+        public Button nextButton;
+        public Button backButton;
 
-    }
+        #endregion
 
-    void LoadCharacterSelectionScene()
-    {
-        SceneManager.LoadSceneAsync("CharacterSelection");
-    }
 
-    void LoadMatch()
-    {
-        Debug.Log("Match Start");
-        // SceneManager.LoadSceneAsync("GameStart");
+        #region MonoBehaviour CallBacks
+
+        void Start()
+        {
+            nextButton.onClick.AddListener(LoadMatch);
+            backButton.onClick.AddListener(LoadCharacterSelectionScene);
+        }
+
+        #endregion
+
+
+        #region Private Methods
+
+        void LoadCharacterSelectionScene()
+        {
+            SceneManager.LoadSceneAsync("CharacterSelection");
+        }
+
+        void LoadMatch()
+        {
+            Debug.Log("Match Start");
+            // SceneManager.LoadSceneAsync("GameStart");
+        }
+
+        #endregion
     }
 }

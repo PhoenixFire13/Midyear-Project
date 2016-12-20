@@ -1,29 +1,42 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
-public class MainMenu : MonoBehaviour {
+namespace MidyearProject.MainMenu
+{
+    public class MainMenu : MonoBehaviour
+    {
+        #region Public fields
 
-    public Button startGameButton;
-    public Button controlsButton;
+        public Button startGameButton;
+        public Button controlsButton;
 
-	// Use this for initialization
-	void Start () {
-        startGameButton.onClick.AddListener(LoadCharacterSelectionScene);
-        controlsButton.onClick.AddListener(LoadControlsScene);
-    }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        #endregion
 
-    void LoadCharacterSelectionScene() {
-        SceneManager.LoadSceneAsync("CharacterSelection");
-    }
 
-    void LoadControlsScene(){
-        SceneManager.LoadSceneAsync("Controls");
+        #region MonoBehaviour CallBacks
+
+        void Start()
+        {
+            startGameButton.onClick.AddListener(LoadGameLobbyScene);
+            controlsButton.onClick.AddListener(LoadControlsScene);
+        }
+
+        #endregion
+
+
+        #region Private Methods
+
+        void LoadGameLobbyScene()
+        {
+            SceneManager.LoadSceneAsync("GameLobby");
+        }
+
+        void LoadControlsScene()
+        {
+            SceneManager.LoadSceneAsync("Controls");
+        }
+
+        #endregion
     }
 }
