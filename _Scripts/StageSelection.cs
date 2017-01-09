@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace MidyearProject.StageSelection
 {
-    public class StageSelection : Photon.PunBehaviour
+    public class StageSelection : MonoBehaviour
     {
         #region Public fields
 
@@ -29,35 +29,13 @@ namespace MidyearProject.StageSelection
 
         void LoadCharacterSelectionScene()
         {
-            if (PhotonNetwork.player.IsMasterClient)
-            {
-                PhotonNetwork.LoadLevel("CharacterSelection");
-            }
-            else
-            {
-                PhotonNetwork.LeaveRoom();
-            }
+            SceneManager.LoadSceneAsync("CharacterSelection");
         }
 
         void LoadMatch()
         {
             Debug.Log("Match Start");
             // SceneManager.LoadSceneAsync("GameStart");
-        }
-
-        #endregion
-
-        #region Photon.PunBehaviour Call Backs
-
-        public override void OnLeftRoom()
-        {
-            Debug.Log("StageSelection: OnLeftRoom() was called by PUN");
-            SceneManager.LoadScene("GameLobby");
-        }
-
-        public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
-        {
-            PhotonNetwork.LoadLevel("CharacterSelection");
         }
 
         #endregion
