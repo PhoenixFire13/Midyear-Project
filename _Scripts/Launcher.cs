@@ -90,6 +90,7 @@ namespace Midyear.Launcher
             if (!PhotonNetwork.connected)
             {
                 PhotonNetwork.ConnectUsingSettings(gameVersion);
+
             }
             panels[1].SetActive(true);
             panels[0].SetActive(false);
@@ -122,7 +123,7 @@ namespace Midyear.Launcher
         {
             if (PhotonNetwork.connected && PhotonNetwork.insideLobby)
             {
-                PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = maxPlayersPerRoom }, TypedLobby.Default);
+                PhotonNetwork.CreateRoom(roomName, new RoomOptions() { MaxPlayers = maxPlayersPerRoom, PublishUserId = true }, TypedLobby.Default);
                 panels[0].SetActive(false);
                 panels[1].SetActive(false);
             }
@@ -132,6 +133,7 @@ namespace Midyear.Launcher
         {
             roomName = value;
         }
+
 
         #endregion
 
@@ -159,6 +161,12 @@ namespace Midyear.Launcher
         public override void OnCreatedRoom()
         {
             Debug.Log("Launcher: OnCreatedRoom() was called by PUN");
+            PhotonNetwork.LoadLevel("CharacterSelection");
+        }
+
+        public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+        {
+            Debug.Log("Launcher: OnPhotonPlayerConnected() was called by PUN \nPlayer: " + newPlayer.NickName);
         }
 
         public override void OnDisconnectedFromPhoton()
