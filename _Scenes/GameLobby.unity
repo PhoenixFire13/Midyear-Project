@@ -1385,7 +1385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LogLevel: 1
-  maxPlayersPerRoom: 4
+  maxPlayersPerRoom: 2
   panels:
   - {fileID: 1018325373}
   - {fileID: 978250046}
