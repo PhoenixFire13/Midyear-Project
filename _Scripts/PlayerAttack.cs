@@ -36,7 +36,7 @@ public class PlayerAttack : MonoBehaviour {
             anim.SetBool("DoStrongAttack", false);
 
             movementScript.enabled = false;
-            StartCoroutine(WeakAttack());
+            StartCoroutine(WeakAttackAnim());
         }
 
         // Right click : Strong attack
@@ -51,17 +51,17 @@ public class PlayerAttack : MonoBehaviour {
             anim.SetBool("IsJumping", false);
 
             movementScript.enabled = false;
-            StartCoroutine(StrongAttack());
+            StartCoroutine(StrongAttackAnim());
         }
     }
 
-    IEnumerator WeakAttack()
+    IEnumerator WeakAttackAnim()
     {
         yield return new WaitForSeconds(WEAKATK_ANIM_DUR);
         movementScript.enabled = true;
     }
 
-    IEnumerator StrongAttack()
+    IEnumerator StrongAttackAnim()
     {
         yield return new WaitForSeconds(STRONGATK_ANIM_DUR);
         movementScript.enabled = true;

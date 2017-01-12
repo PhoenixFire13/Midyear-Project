@@ -12,7 +12,6 @@ public class CharacterMovement : MonoBehaviour {
     public float turnSpeed = 180f;
     public float jumpDistance = 25f;
 
-    // Adjust timing
     public static float JUMP_ANIM_DUR = 0.65f;
 
 	void Awake () {
@@ -69,7 +68,7 @@ public class CharacterMovement : MonoBehaviour {
             anim.SetBool("DoStrongAttack", false);
             anim.SetBool("DoWeakAttack", false);
 
-            StartCoroutine(Jump());
+            StartCoroutine(JumpAnim());
         }
     }
 
@@ -96,7 +95,7 @@ public class CharacterMovement : MonoBehaviour {
     }
 
     // ---------------Fix buggy jump animation---------------
-    IEnumerator Jump()
+    IEnumerator JumpAnim()
     {
         yield return new WaitForSeconds(JUMP_ANIM_DUR);
 
