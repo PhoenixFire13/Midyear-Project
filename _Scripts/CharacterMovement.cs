@@ -8,9 +8,10 @@ public class CharacterMovement : MonoBehaviour {
     private float xzMovement;
     private float yTurn;
 
-    public float moveSpeed = 0.025f;
+    public float moveSpeed = 0.035f;
     public float turnSpeed = 180f;
     public float jumpDistance = 25f;
+    public float jumpHeight = 50f;
 
     public static float JUMP_ANIM_DUR = 0.65f;
 
@@ -94,13 +95,12 @@ public class CharacterMovement : MonoBehaviour {
         yTurn = 0f;
     }
 
-    // ---------------Fix buggy jump animation---------------
     IEnumerator JumpAnim()
     {
         yield return new WaitForSeconds(JUMP_ANIM_DUR);
 
-        Vector3 jumpMovement = transform.forward * jumpDistance * moveSpeed;
-        rb.MovePosition(rb.position + jumpMovement);
+        Vector3 jumpMovement = new Vector3(jumpDistance, jumpHeight, 0f) * moveSpeed;
+        rb.MovePosition(Vector3.Lerp(rb.position, rb.position + jumpMovement, 0.15f));
     }
 
 }
