@@ -23,25 +23,8 @@ namespace MidyearProject.CharacterSelection
 
         void Start()
         {
-            if (!PhotonNetwork.player.IsMasterClient)
-            {
-                nextButton.gameObject.SetActive(false);
-            }
-
-            makeButtonActive();
-            backButton.onClick.AddListener(LoadGameLobby);
-
-            foreach (PhotonPlayer player in PhotonNetwork.playerList)
-            {
-                if (player.IsMasterClient)
-                {
-                    players[0].text = player.NickName;
-                }
-                else
-                {
-                    players[1].text = player.NickName;
-                }
-            }
+            Debug.Log("Start was called by CharacterSelection");
+            initializePlayerProperties();
         }
 
         #endregion
@@ -71,6 +54,37 @@ namespace MidyearProject.CharacterSelection
             }
         }
 
+        void initializePlayerProperties()
+        {
+            if (!PhotonNetwork.player.IsMasterClient)
+            {
+                nextButton.gameObject.SetActive(false);
+            }
+
+            makeButtonActive();
+            backButton.onClick.AddListener(LoadGameLobby);
+
+            foreach (PhotonPlayer player in PhotonNetwork.playerList)
+            {
+                if (player.IsMasterClient)
+                {
+                    if (!player.CustomProperties.ContainsKey("playerNum") || (int)player.CustomProperties["playerNum"] != 1)
+                    {
+                        player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "playerNum", 1 } });
+                    }
+                    players[0].text = player.NickName;
+                }
+                else
+                {
+                    if (!player.CustomProperties.ContainsKey("playerNum") || (int)player.CustomProperties["playerNum"] != 2)
+                    {
+                        player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "playerNum", 2 } });
+                    }
+                    players[1].text = player.NickName;
+                }
+            }
+        }
+
         #endregion
 
 
@@ -84,10 +98,18 @@ namespace MidyearProject.CharacterSelection
             {
                 if (player.IsMasterClient)
                 {
+                    if (!player.CustomProperties.ContainsKey("playerNum") || (int)player.CustomProperties["playerNum"] != 1)
+                    {
+                        player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "playerNum", 1 } });
+                    }
                     players[0].text = player.NickName;
                 }
                 else
                 {
+                    if (!player.CustomProperties.ContainsKey("playerNum") || (int)player.CustomProperties["playerNum"] != 2)
+                    {
+                        player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "playerNum", 2 } });
+                    }
                     players[1].text = player.NickName;
                 }
             }
@@ -98,6 +120,7 @@ namespace MidyearProject.CharacterSelection
         public override void OnLeftRoom()
         {
             Debug.Log("CharacterSelection: OnLeftRoom() was called by PUN");
+            PhotonNetwork.player.CustomProperties.Clear();
             SceneManager.LoadScene("GameLobby");
         }
 
@@ -105,9 +128,6 @@ namespace MidyearProject.CharacterSelection
         {
             Debug.Log("CharacterSelection: OnPhotonPlayerDisconnected() was called by PUN");
             Debug.Log(PhotonNetwork.player.IsMasterClient);
-            players[0].text = "Player 1";
-            players[1].text = "Player 2";
-            Start();
 
             makeButtonActive();
         }
