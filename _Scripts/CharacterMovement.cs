@@ -13,7 +13,7 @@ public class CharacterMovement : MonoBehaviour {
     public float jumpDistance = 25f;
     public float jumpHeight = 50f;
 
-    public static float JUMP_ANIM_DUR = 0.65f;
+    public static float JUMP_ANIM_DUR = 1f;
 
 	void Awake () {
         rb = GetComponent<Rigidbody>();
