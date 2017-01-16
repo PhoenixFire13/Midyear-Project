@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StrongAttack : MonoBehaviour {
+public class WeakAttack : MonoBehaviour {
 
     private Animator playerAnim;
     private bool isAttacking;
@@ -22,10 +22,10 @@ public class StrongAttack : MonoBehaviour {
 
     void Update()
     {
-        isAttacking = playerAnim.GetBool("DoStrongAttack");
+        isAttacking = playerAnim.GetBool("DoWeakAttack");
     }
 
-    private void OnTriggerEnter (Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (isAttacking && other.tag == "Player")
         {
@@ -36,15 +36,11 @@ public class StrongAttack : MonoBehaviour {
             opponentMovement = other.GetComponent<CharacterMovement>();
             opponentAnim = other.GetComponent<Animator>();
 
-            DealDamage();
+            opponentHealth.TakeDamage(damage);
+
             Knockback();
             Animate();
         }
-    }
-
-    private void DealDamage()
-    {
-        opponentHealth.TakeDamage(damage);
     }
 
     // --------------- Knockback distance depending on damage already dealt to opponent ---------------
@@ -53,7 +49,7 @@ public class StrongAttack : MonoBehaviour {
         // int damageTaken = opponentHealth.GetCurrentHealth();
         // int distance = damageTaken / 10;
 
-        opponentRB.AddForce(transform.forward * 1000f, ForceMode.Impulse);
+        opponentRB.AddForce(opponentRB.transform.forward * 100f * Time.deltaTime);
     }
 
     private void Animate()
@@ -66,10 +62,10 @@ public class StrongAttack : MonoBehaviour {
         opponentAnim.SetBool("DoStrongAttack", false);
 
         opponentMovement.enabled = false;
-        StartCoroutine(StrongAtk());
+        StartCoroutine(WeakAtk());
     }
 
-    IEnumerator StrongAtk()
+    IEnumerator WeakAtk()
     {
         yield return new WaitForSeconds(HURT_ANIM_DUR);
 

@@ -1,28 +1,48 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class CanvasManager : Photon.PunBehaviour {
-
-    GameObject playerMeter;
-    GameObject opponentMeter;
 
     public GameObject playerDamageMeter;
     public GameObject opponentDamageMeter;
 
     void Awake() {
-        playerMeter = Instantiate(playerDamageMeter);
-        playerMeter.transform.SetParent(gameObject.transform);
-
-        opponentMeter = Instantiate(opponentDamageMeter);
-        opponentMeter.transform.SetParent(gameObject.transform);
+        
     }
 
     public GameObject GetPlayerDMGMeter() {
-        return playerMeter;
+        return playerDamageMeter;
     }
 
     public GameObject GetOpponentDMGMeter() {
-        return opponentMeter;
+        return opponentDamageMeter;
+    }
+
+    public Text GetPlayerDMGText()
+    {
+        Text[] texts = playerDamageMeter.GetComponentsInChildren<Text>();
+        foreach (Text txt in texts)
+        {
+            if (txt.name == "DamageText")
+            {
+                return txt;
+            }
+        }
+
+        return null;
+    }
+
+    public Text GetOpponentDMGText()
+    {
+        Text[] texts = opponentDamageMeter.GetComponentsInChildren<Text>();
+        foreach (Text txt in texts)
+        {
+            if (txt.name == "DamageText")
+                return txt;
+        }
+
+        return null;
     }
 
 }

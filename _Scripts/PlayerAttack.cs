@@ -34,6 +34,7 @@ public class PlayerAttack : MonoBehaviour {
             anim.SetBool("IsRunning", false);
             anim.SetBool("IsJumping", false);
             anim.SetBool("DoStrongAttack", false);
+            anim.SetBool("IsHurt", false);
 
             movementScript.enabled = false;
             StartCoroutine(WeakAttackAnim());
@@ -49,6 +50,7 @@ public class PlayerAttack : MonoBehaviour {
             anim.SetBool("IsRunning", false);
             anim.SetBool("DoWeakAttack", false);
             anim.SetBool("IsJumping", false);
+            anim.SetBool("IsHurt", false);
 
             movementScript.enabled = false;
             StartCoroutine(StrongAttackAnim());

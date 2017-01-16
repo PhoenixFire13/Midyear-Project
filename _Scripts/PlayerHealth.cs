@@ -5,22 +5,15 @@ using System.Collections;
 public class PlayerHealth : MonoBehaviour {
 
     private Text damageText;
-    private float currentHP;
+    private int currentHP;
 
     public static int INITIAL_DAMAGE_VALUE = 0;
     public static int MAX_DAMAGE_VALUE = 999;
 
     void Awake()
     {
-        Text[] texts = Resources.FindObjectsOfTypeAll<Text>();
-        foreach (Text txt in  texts)
-        {
-            if (txt.tag == "OpponentHealth")
-            {
-                damageText = txt;
-                break;
-            }
-        }
+        Canvas healthCanvas = FindObjectOfType<Canvas>();
+        damageText = healthCanvas.GetComponent<CanvasManager>().GetOpponentDMGText();
 
         currentHP = INITIAL_DAMAGE_VALUE;
     }
@@ -34,7 +27,7 @@ public class PlayerHealth : MonoBehaviour {
         }
     }
 
-    public float GetCurrentHealth()
+    public int GetCurrentHealth()
     {
         return currentHP;
     }

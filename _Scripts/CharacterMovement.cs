@@ -50,6 +50,7 @@ public class CharacterMovement : MonoBehaviour {
             anim.SetBool("IsJumping", false);
             anim.SetBool("DoStrongAttack", false);
             anim.SetBool("DoWeakAttack", false);
+            anim.SetBool("IsHurt", false);
         }
 
         if (xzMovement > 0.01f || xzMovement < -0.01f)
@@ -59,6 +60,7 @@ public class CharacterMovement : MonoBehaviour {
             anim.SetBool("IsJumping", false);
             anim.SetBool("DoStrongAttack", false);
             anim.SetBool("DoWeakAttack", false);
+            anim.SetBool("IsHurt", false);
         }
 
         if (Input.GetKeyDown("space"))
@@ -68,6 +70,7 @@ public class CharacterMovement : MonoBehaviour {
             anim.SetBool("IsRunning", false);
             anim.SetBool("DoStrongAttack", false);
             anim.SetBool("DoWeakAttack", false);
+            anim.SetBool("IsHurt", false);
 
             StartCoroutine(JumpAnim());
         }

@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour {
         Transform spawn = RandomSpawnPoint();
         playerInstance.transform.position = spawn.position;
         playerInstance.transform.rotation = spawn.rotation;
-	}
+    }
 
     // Debugging purposes
     void Update()
