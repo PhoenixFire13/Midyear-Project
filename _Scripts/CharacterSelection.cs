@@ -44,7 +44,7 @@ namespace MidyearProject.CharacterSelection
 
         void makeButtonActive()
         {
-            if (PhotonNetwork.playerList.Length == PhotonNetwork.room.MaxPlayers)
+            if (PhotonNetwork.playerList.Length == PhotonNetwork.room.MaxPlayers && checkCharacters())
             {
                 nextButton.onClick.AddListener(LoadStageSelectionScene);
             }
@@ -85,6 +85,16 @@ namespace MidyearProject.CharacterSelection
             }
         }
 
+        bool checkCharacters()
+        {
+            foreach (PhotonPlayer p in PhotonNetwork.playerList)
+            {
+                if (!p.CustomProperties.ContainsKey("characterNum"))
+                    return false;
+            }
+            return true;
+        }
+
         #endregion
 
 
@@ -113,8 +123,6 @@ namespace MidyearProject.CharacterSelection
                     players[1].text = player.NickName;
                 }
             }
-
-            makeButtonActive();
         }
 
         public override void OnLeftRoom()
@@ -136,6 +144,14 @@ namespace MidyearProject.CharacterSelection
         {
             Debug.Log("CharacterSelection: OnMasterClientSwitched() was called by PUN");
             nextButton.gameObject.SetActive(true);
+        }
+
+        public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
+        {
+            if ((playerAndUpdatedProps[1] as ExitGames.Client.Photon.Hashtable).ContainsKey("characterNum"))
+            {
+                makeButtonActive();
+            }
         }
 
         #endregion

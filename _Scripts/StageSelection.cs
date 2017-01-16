@@ -18,14 +18,45 @@ namespace MidyearProject.StageSelection
 
         void Start()
         {
-            nextButton.onClick.AddListener(LoadMatch);
+            if (!PhotonNetwork.player.IsMasterClient)
+            {
+                nextButton.gameObject.SetActive(false);
+            }
+
+            makeButtonActive();
             backButton.onClick.AddListener(LoadCharacterSelectionScene);
         }
 
         #endregion
 
+        #region Public Methods
+        /// <summary>
+        /// Sets the stageNum in the room properties so that the stage can be created with the selected stage
+        /// </summary>
+        /// 
+        /// <param name="n"> 0: Mario Theme
+        /// </param>
+        public void setStageNum(int n)
+        {
+            PhotonNetwork.room.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "stageNum", n } });
+            makeButtonActive();
+        }
+
+        #endregion
 
         #region Private Methods
+
+        void makeButtonActive()
+        {
+            if (PhotonNetwork.room.CustomProperties.ContainsKey("stageNum"))
+            {
+                nextButton.onClick.AddListener(LoadMatch);
+            }
+            else
+            {
+                nextButton.onClick.RemoveAllListeners();
+            }
+        }
 
         void LoadCharacterSelectionScene()
         {
@@ -42,7 +73,7 @@ namespace MidyearProject.StageSelection
         void LoadMatch()
         {
             Debug.Log("Match Start");
-            // SceneManager.LoadSceneAsync("GameStart");
+            PhotonNetwork.LoadLevel("Stage");
         }
 
         #endregion
@@ -52,6 +83,7 @@ namespace MidyearProject.StageSelection
         public override void OnLeftRoom()
         {
             Debug.Log("StageSelection: OnLeftRoom() was called by PUN");
+            PhotonNetwork.player.CustomProperties.Clear();
             SceneManager.LoadScene("GameLobby");
         }
 
