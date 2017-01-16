@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: d775616c78674ce439d26fec2f05274c
-timeCreated: 1484184326
+guid: 57ac694087b593941a9d9370bab53ed4
+timeCreated: 1484232928
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -19,8 +19,8 @@ ModelImporter:
     100022: Bone.006_end
     100024: Bone.007
     100026: Bone.007_end
-    100028: //RootNode
-    100030: Kirby
+    100028: Kirby
+    100030: //RootNode
     100032: KirbyArmature
     100034: LeftArmBone
     100036: LeftArmBone_end
@@ -57,17 +57,19 @@ ModelImporter:
     400048: RightFootBone_end
     4300000: Kirby
     7400000: Jump
-    7400002: Kirby_Idle
-    7400004: KirbyArmature|Idle.001
-    7400006: KirbyArmature|Jump
-    7400008: KirbyArmature|Jump.001
-    7400010: Kirby_Run
-    7400012: KirbyArmature|Jump.002
-    7400014: Kirby_StrongAttack
-    7400016: Kirby_WeakAttack
-    7400018: Kirby|Jump
-    7400020: 'Kirby_Jump '
-    7400022: 'Kirby|Jump '
+    7400002: Kirby_Hurt
+    7400004: KirbyArmature|Hurt.001
+    7400006: Kirby_Idle
+    7400008: KirbyArmature|Idle.001
+    7400010: KirbyArmature|Jump
+    7400012: 'Kirby_Jump '
+    7400014: KirbyArmature|Jump.001
+    7400016: Kirby_Run
+    7400018: KirbyArmature|Jump.002
+    7400020: Kirby_StrongAttack
+    7400022: Kirby_WeakAttack
+    7400024: Kirby|Jump
+    7400026: 'Kirby|Jump '
     9500000: //RootNode
     13700000: Kirby
   materials:
@@ -92,6 +94,84 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
+      name: Kirby_Hurt
+      takeName: KirbyArmature|Hurt
+      firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Kirby
+        weight: 1
+      - path: KirbyArmature
+        weight: 1
+      - path: KirbyArmature/BodyArmature
+        weight: 1
+      - path: KirbyArmature/BodyArmature/BodyArmature_end
+        weight: 1
+      - path: KirbyArmature/Bone.001
+        weight: 1
+      - path: KirbyArmature/Bone.001/Bone.001_end
+        weight: 1
+      - path: KirbyArmature/Bone.002
+        weight: 1
+      - path: KirbyArmature/Bone.002/Bone.002_end
+        weight: 1
+      - path: KirbyArmature/Bone.004
+        weight: 1
+      - path: KirbyArmature/Bone.004/Bone.004_end
+        weight: 1
+      - path: KirbyArmature/Bone.005
+        weight: 1
+      - path: KirbyArmature/Bone.005/Bone.005_end
+        weight: 1
+      - path: KirbyArmature/Bone.006
+        weight: 1
+      - path: KirbyArmature/Bone.006/Bone.006_end
+        weight: 1
+      - path: KirbyArmature/Bone.007
+        weight: 1
+      - path: KirbyArmature/Bone.007/Bone.007_end
+        weight: 1
+      - path: KirbyArmature/LeftArmBone
+        weight: 1
+      - path: KirbyArmature/LeftArmBone/LeftArmBone_end
+        weight: 1
+      - path: KirbyArmature/LeftFootBone
+        weight: 1
+      - path: KirbyArmature/LeftFootBone/LeftFootBone_end
+        weight: 1
+      - path: KirbyArmature/RightArmBone
+        weight: 1
+      - path: KirbyArmature/RightArmBone/RightArmBone_end
+        weight: 1
+      - path: KirbyArmature/RightFootBone
+        weight: 1
+      - path: KirbyArmature/RightFootBone/RightFootBone_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
       name: Kirby_Idle
       takeName: KirbyArmature|Idle
       firstFrame: 0
@@ -102,7 +182,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -258,7 +338,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
