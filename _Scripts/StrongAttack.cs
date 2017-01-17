@@ -13,6 +13,10 @@ public class StrongAttack : MonoBehaviour {
 
     public static float HURT_ANIM_DUR = 0.05f;
 
+    public LayerMask explosionMask;
+    public float knockbackRadius;
+    public float knockbackPower;
+    public float upwardsModifier;
     public int damage;
 
     void Awake()
@@ -50,10 +54,19 @@ public class StrongAttack : MonoBehaviour {
     // --------------- Knockback distance depending on damage already dealt to opponent ---------------
     private void Knockback()
     {
-        // int damageTaken = opponentHealth.GetCurrentHealth();
-        // int distance = damageTaken / 10;
+        Debug.Log("Knockback");
 
-        opponentRB.AddForce(transform.forward * 1000f, ForceMode.Impulse);
+        // --------------- Flying Kirby Easter Egg ---------------
+        Collider[] colliders = Physics.OverlapSphere(transform.position, knockbackRadius);
+        foreach (Collider coll in colliders)
+        {
+            Rigidbody opponentRB = coll.GetComponent<Rigidbody>();
+            if (opponentRB != null)
+            {
+                opponentRB.isKinematic = false;
+                opponentRB.AddExplosionForce(knockbackPower, transform.position, knockbackRadius, upwardsModifier, ForceMode.Impulse);
+            }
+        }
     }
 
     private void Animate()

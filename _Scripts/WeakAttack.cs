@@ -13,6 +13,10 @@ public class WeakAttack : MonoBehaviour {
 
     public static float HURT_ANIM_DUR = 0.05f;
 
+    public LayerMask explosionMask;
+    public float knockbackRadius;
+    public float knockbackPower;
+    public float upwardsModifier;
     public int damage;
 
     void Awake()
@@ -36,20 +40,33 @@ public class WeakAttack : MonoBehaviour {
             opponentMovement = other.GetComponent<CharacterMovement>();
             opponentAnim = other.GetComponent<Animator>();
 
-            opponentHealth.TakeDamage(damage);
-
+            DealDamage();
             Knockback();
             Animate();
         }
     }
 
+    private void DealDamage()
+    {
+        opponentHealth.TakeDamage(damage);
+    }
+
     // --------------- Knockback distance depending on damage already dealt to opponent ---------------
     private void Knockback()
     {
-        // int damageTaken = opponentHealth.GetCurrentHealth();
-        // int distance = damageTaken / 10;
+        Debug.Log("Knockback");
 
-        opponentRB.AddForce(opponentRB.transform.forward * 100f * Time.deltaTime);
+        // --------------- Flying Kirby Easter Egg ---------------
+        Collider[] colliders = Physics.OverlapSphere(transform.position, knockbackRadius);
+        foreach (Collider coll in colliders)
+        {
+            Rigidbody opponentRB = coll.GetComponent<Rigidbody>();
+            if (opponentRB != null)
+            {
+                opponentRB.isKinematic = false;
+                opponentRB.AddExplosionForce(knockbackPower, transform.position, knockbackRadius, upwardsModifier, ForceMode.Impulse);
+            }
+        }
     }
 
     private void Animate()
