@@ -10,13 +10,13 @@ public class StrongAttack : MonoBehaviour {
     private Rigidbody opponentRB;
     private PlayerHealth opponentHealth;
     private CharacterMovement opponentMovement;
+    private StrongAttack opponentSAtk_Script;
+    private int damageTaken;
 
     public static float HURT_ANIM_DUR = 0.05f;
 
     public LayerMask explosionMask;
     public float knockbackRadius;
-    public float knockbackPower;
-    public float upwardsModifier;
     public int damage;
 
     void Awake()
@@ -27,6 +27,9 @@ public class StrongAttack : MonoBehaviour {
     void Update()
     {
         isAttacking = playerAnim.GetBool("DoStrongAttack");
+
+        if (opponentHealth != null)
+            damageTaken = opponentHealth.GetCurrentHealth();
     }
 
     private void OnTriggerEnter (Collider other)
@@ -39,9 +42,10 @@ public class StrongAttack : MonoBehaviour {
             opponentHealth = other.GetComponent<PlayerHealth>();
             opponentMovement = other.GetComponent<CharacterMovement>();
             opponentAnim = other.GetComponent<Animator>();
+            opponentSAtk_Script = other.GetComponentInChildren<StrongAttack>();
 
             DealDamage();
-            Knockback();
+            opponentSAtk_Script.Knockback();
             Animate();
         }
     }
@@ -51,12 +55,30 @@ public class StrongAttack : MonoBehaviour {
         opponentHealth.TakeDamage(damage);
     }
 
-    // --------------- Knockback distance depending on damage already dealt to opponent ---------------
-    private void Knockback()
+    private float CalculateKB()
     {
-        Debug.Log("Knockback");
+        return damageTaken / 50;
+    }
 
-        // --------------- Flying Kirby Easter Egg ---------------
+    private float CalculateJM()
+    {
+        if (damageTaken < 100)
+            return 0;
+        else
+            return damageTaken / 100;
+    }
+
+    private Vector3 CalculateExploPos()
+    {
+        Vector3 exploPos = transform.position;
+        exploPos += new Vector3(0f, 1f, 1f);
+
+        return exploPos;
+    }
+
+    // --------------- Knockback distance depending on damage already dealt to opponent ---------------
+    public void Knockback()
+    {
         Collider[] colliders = Physics.OverlapSphere(transform.position, knockbackRadius);
         foreach (Collider coll in colliders)
         {
@@ -64,9 +86,29 @@ public class StrongAttack : MonoBehaviour {
             if (opponentRB != null)
             {
                 opponentRB.isKinematic = false;
-                opponentRB.AddExplosionForce(knockbackPower, transform.position, knockbackRadius, upwardsModifier, ForceMode.Impulse);
+
+                // Debug.Log(opponentSAtk_Script + ": " + damageTaken + ", " + CalculateKB() + ", " + CalculateExploPos() + ", " + CalculateJM());
+                opponentRB.AddExplosionForce(CalculateKB(), CalculateExploPos(), knockbackRadius, CalculateJM(), ForceMode.Impulse);
             }
         }
+
+        // --------------- Backup in case things don't go well ---------------
+        /*
+        Collider[] colliders = Physics.OverlapSphere(transform.position, knockbackRadius);
+        foreach (Collider coll in colliders)
+        {
+            Rigidbody opponentRB = coll.GetComponent<Rigidbody>();
+            if (opponentRB != null)
+            {
+                opponentRB.isKinematic = false;
+
+                Vector3 exploPos = transform.position;
+                exploPos += new Vector3(0f, 1f, 1f);
+
+                opponentRB.AddExplosionForce(knockbackPower, exploPos, knockbackRadius, upwardsModifier, ForceMode.Impulse);
+            }
+        }
+        */
     }
 
     private void Animate()

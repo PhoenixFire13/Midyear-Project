@@ -18,15 +18,6 @@ public class PlayerHealth : MonoBehaviour {
         currentHP = INITIAL_DAMAGE_VALUE;
     }
 
-    // Debug purposes
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            TakeDamage(10);
-        }
-    }
-
     public int GetCurrentHealth()
     {
         return currentHP;
@@ -34,20 +25,17 @@ public class PlayerHealth : MonoBehaviour {
 
     public void TakeDamage (int amount)
     {
-        currentHP += amount;
+        if (currentHP < 999)
+            currentHP += amount;
+        else if (currentHP >= 999)
+            currentHP = 999;
+
         SetHealthUI();
     }
 
     private void SetHealthUI()
     {
         damageText.text = currentHP + "%";
-    }
-
-    // --------------- Death condition: Outside of stage boundaries (kill box) ---------------
-    // Might move to separate script assigned to KillBox parent
-    private void OnDeath()
-    {
-
     }
 
 }
