@@ -5,7 +5,11 @@ public class PlayerAttack : MonoBehaviour {
 
     private Animator anim;
     private CharacterMovement movementScript;
+    private AudioSource aud;
 
+    public AudioClip hurtSFX;
+    public AudioClip strongAttackSFX;
+    public AudioClip weakAttackSFX;
     public float attackSpeed = 0.025f;
 
     public static float STRONGATK_ANIM_DUR = 0.5f;
@@ -15,11 +19,18 @@ public class PlayerAttack : MonoBehaviour {
     {
         anim = GetComponent<Animator>();
         movementScript = GetComponent<CharacterMovement>();
+        aud = GetComponent<AudioSource>();
     }
 
     void Update()
     {
         AttackAnimate();
+
+        if (anim.GetBool("IsHurt"))
+        {
+            aud.clip = hurtSFX;
+            aud.Play();
+        }
     }
 
     void AttackAnimate()
@@ -36,6 +47,9 @@ public class PlayerAttack : MonoBehaviour {
             anim.SetBool("DoStrongAttack", false);
             anim.SetBool("IsHurt", false);
 
+            aud.clip = weakAttackSFX;
+            aud.Play();
+
             movementScript.enabled = false;
             StartCoroutine(WeakAttackAnim());
         }
@@ -51,6 +65,9 @@ public class PlayerAttack : MonoBehaviour {
             anim.SetBool("DoWeakAttack", false);
             anim.SetBool("IsJumping", false);
             anim.SetBool("IsHurt", false);
+
+            aud.clip = strongAttackSFX;
+            aud.Play();
 
             movementScript.enabled = false;
             StartCoroutine(StrongAttackAnim());

@@ -5,9 +5,11 @@ public class CharacterMovement : MonoBehaviour {
 
     private Animator anim;
     private Rigidbody rb;
+    private AudioSource aud;
     private float xzMovement;
     private float yTurn;
 
+    public AudioClip jumpSFX;
     public float moveSpeed = 0.035f;
     public float turnSpeed = 180f;
     public float jumpDistance = 25f;
@@ -18,6 +20,7 @@ public class CharacterMovement : MonoBehaviour {
 	void Awake () {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        aud = GetComponent<AudioSource>();
 	}
 
     void OnEnable()
@@ -71,6 +74,9 @@ public class CharacterMovement : MonoBehaviour {
             anim.SetBool("DoStrongAttack", false);
             anim.SetBool("DoWeakAttack", false);
             anim.SetBool("IsHurt", false);
+
+            aud.clip = jumpSFX;
+            aud.Play();
 
             StartCoroutine(JumpAnim());
         }
