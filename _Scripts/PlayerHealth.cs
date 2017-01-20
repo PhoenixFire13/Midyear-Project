@@ -18,6 +18,14 @@ public class PlayerHealth : MonoBehaviour {
         currentHP = INITIAL_DAMAGE_VALUE;
     }
 
+    void Update()
+    {
+        if (!damageText.text.Equals(currentHP + "%"))
+        {
+            SetHealthUI();
+        }
+    }
+
     public int GetCurrentHealth()
     {
         return currentHP;

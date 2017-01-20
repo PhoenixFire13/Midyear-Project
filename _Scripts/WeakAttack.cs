@@ -36,12 +36,12 @@ public class WeakAttack : MonoBehaviour {
     {
         if (isAttacking && other.tag == "Player")
         {
-            // Debug.Log(other.name + ": " + other.tag);
+            Debug.Log("ViewID: " + other.gameObject.GetComponentInParent<PhotonView>().viewID);
 
-            opponentRB = other.GetComponent<Rigidbody>();
-            opponentHealth = other.GetComponent<PlayerHealth>();
-            opponentMovement = other.GetComponent<CharacterMovement>();
-            opponentAnim = other.GetComponent<Animator>();
+            opponentRB = other.GetComponentInParent<Rigidbody>();
+            opponentHealth = other.GetComponentInParent<PlayerHealth>();
+            opponentMovement = other.GetComponentInParent<CharacterMovement>();
+            opponentAnim = other.GetComponentInParent<Animator>();
             opponentWAtk_Script = other.GetComponentInChildren<WeakAttack>();
 
             DealDamage();
@@ -122,6 +122,18 @@ public class WeakAttack : MonoBehaviour {
 
         opponentMovement.enabled = false;
         StartCoroutine(WeakAtk());
+    }
+
+    private void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(damageTaken);
+        }
+        else
+        {
+            opponentHealth.TakeDamage((int)stream.ReceiveNext() - damageTaken);
+        }
     }
 
     IEnumerator WeakAtk()

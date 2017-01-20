@@ -6,12 +6,13 @@ public class PlayerManager : Photon.PunBehaviour {
     GameObject playerInstance;
     //SkinnedMeshRenderer playerMesh;
     Transform[] spawnPoints;
+    int charColor;
 
     public Material[] playerColors;
     public GameObject camera;
 
     void Start () {
-        int charColor = 0;
+        charColor = 0;
         GameObject[] spawns = GameObject.FindGameObjectsWithTag("Spawn");
         spawnPoints = new Transform[spawns.Length];
 
@@ -27,7 +28,7 @@ public class PlayerManager : Photon.PunBehaviour {
 
         Transform spawn = RandomSpawnPoint();
         playerInstance = PhotonNetwork.Instantiate("Kirby", spawn.position, spawn.rotation, 0);
-        initializeCharacter(PhotonNetwork.player, playerInstance, charColor);
+        initializeCharacter(playerInstance, charColor);
         playerInstance.GetComponent<CharacterMovement>().enabled = true;
         playerInstance.GetComponent<PlayerAttack>().enabled = true;
         GameObject playerCam = (GameObject)Instantiate(camera, playerInstance.transform);
@@ -42,14 +43,10 @@ public class PlayerManager : Photon.PunBehaviour {
     }
 
     [PunRPC]
-    private void initializeCharacter(PhotonPlayer p, GameObject obj , int n)
+    private void initializeCharacter(GameObject obj , int n)
     {
         SkinnedMeshRenderer meshRenderer = obj.GetComponentInChildren<SkinnedMeshRenderer>();
         meshRenderer.materials = SetColor(n);
-        if (p.CustomProperties.ContainsKey("playerNum"))
-        {
-            obj.tag = "Player " + (int)p.CustomProperties["playerNum"];
-        }
     }
 
     private Transform RandomSpawnPoint()
@@ -71,16 +68,14 @@ public class PlayerManager : Photon.PunBehaviour {
     {
         if (stream.isWriting)
         {
-            Debug.Log("Sender Writing: " + info.sender.NickName + " ViewID: " + playerInstance.GetPhotonView().viewID + " Character: " + (int)PhotonNetwork.player.CustomProperties["characterNum"]);
-            stream.SendNext((int)PhotonNetwork.player.CustomProperties["characterNum"]);
-            stream.SendNext(playerInstance.GetPhotonView().viewID);
+            //Debug.Log("Sender Writing: " + info.sender.NickName + " Character: " + (int)PhotonNetwork.player.CustomProperties["characterNum"]);
+            stream.SendNext(charColor);
         }
         else
         {
             int character = (int)stream.ReceiveNext();
-            int ID = (int)stream.ReceiveNext();
-            Debug.Log("Sender Reading: " + info.sender.NickName + " ViewID: " + ID + " Character: " + character);
-            initializeCharacter(info.sender, PhotonView.Find(ID).gameObject, character);
+            Debug.Log("Sender Reading: " + info.sender.NickName + " Character: " + character);
+            initializeCharacter(info.photonView.gameObject, character);
         }
     }
 
